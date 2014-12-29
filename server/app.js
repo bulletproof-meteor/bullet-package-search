@@ -22,23 +22,6 @@ SearchSource.defineSource('packages', function(searchText, options) {
     }
   };
 
-  var boostQuery = {
-    "function_score": {
-      "query": query,
-      "functions": [
-        {
-          "filter": {
-            "exists": {"field": "repoInfo"}
-          },
-
-          "script_score": {
-            "script": "_score"
-          }
-        }
-      ]
-    }
-  }
-
   var result =  EsClient.search({
     index: "meteor",
     type: "packages",
@@ -54,9 +37,19 @@ SearchSource.defineSource('packages', function(searchText, options) {
     }
   });
 
-  return result.hits.hits.map(function(doc) {
+  var data = result.hits.hits.map(function(doc) {
     var source = _.clone(doc._source);
     source._score = doc._score;
     return source;
   });
+
+  var metadata = {
+    took: result.took,
+    total: result.hits.total
+  };
+
+  return {
+    data: data,
+    metadata: metadata
+  };
 });

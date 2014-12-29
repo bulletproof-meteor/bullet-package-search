@@ -14,6 +14,14 @@ Template.searchResult.helpers({
       },
       sort: {_score: -1}
     });
+  },
+
+  metedata: function() {
+    return PackageSearch.getMetadata();
+  },
+
+  isLoading: function() {
+    return PackageSearch.getStatus().loading;
   }
 });
 

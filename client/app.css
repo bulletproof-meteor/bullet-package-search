@@ -11,7 +11,12 @@
 }
 
 #search-result {
-  margin-top: 20px;
+  margin: 20px 0 100px 0;
+}
+
+#search-meta {
+  font-size: 13px;
+  color: #666;
 }
 
 .package {

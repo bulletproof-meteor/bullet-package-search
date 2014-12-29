@@ -14,9 +14,21 @@
 
 <template name="searchResult">
   <div id='search-result'>
+    <div id="search-meta">
+      {{#if isLoading}}
+        searching ...
+      {{else}}
+        {{#with metedata}}
+        About {{total}} results ({{took}} milliseconds)
+        {{/with}}
+      {{/if}}
+    </div>
+
     {{#each getPackages}}
     <div class="package">
-      <h4 class="name">{{{packageName}}}</h4>
+      <h4 class="name">
+        <a href="{{git}}" target="_blank">{{{packageName}}}</a>
+      </h4>
       <div class="description">
         {{{description}}}
       </div>
