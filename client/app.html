@@ -1,0 +1,26 @@
+<body>
+  <div class="container">
+    <div id="heading">
+      <h1>Meteor Package Search</h1>
+    </div>
+    {{> searchBox }}
+    {{> searchResult}}
+  </div>
+</body>
+
+<template name="searchBox">
+  <input type="text" id="search-box" placeholder="search packages here" />
+</template>
+
+<template name="searchResult">
+  <div id='search-result'>
+    {{#each getPackages}}
+    <div class="package">
+      <h4 class="name">{{{packageName}}}</h4>
+      <div class="description">
+        {{{description}}}
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</template>
