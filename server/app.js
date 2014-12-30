@@ -22,18 +22,24 @@ SearchSource.defineSource('packages', function(searchText, options) {
     }
   };
 
+  var boostQuery = {
+    "function_score": {
+      "query": query,
+      "functions": [
+        {
+          "script_score": {
+            "script": "doc['isoScore'].value * _score"
+          }
+        }
+      ]
+    }
+  }
+
   var result =  EsClient.search({
     index: "meteor",
     type: "packages",
     body: {
-      query: query,
-      sort: {
-        "_script" : {
-            "script" : "doc['isoScore'].value * _score",
-            "type" : "number",
-            "order" : "desc"
-        }
-      }
+      query: boostQuery
     }
   });
 
@@ -44,8 +50,8 @@ SearchSource.defineSource('packages', function(searchText, options) {
   });
 
   var metadata = {
-    took: result.took,
-    total: result.hits.total
+    total: result.hits.total,
+    took: result.took
   };
 
   return {
